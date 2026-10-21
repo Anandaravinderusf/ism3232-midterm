@@ -1,4 +1,9 @@
-from business_rules import calculate_license_cost, get_seat_discount
+from business_rules import (
+    calculate_license_cost,
+    calculate_license_total,
+    get_seat_discount,
+    needs_contract_review,
+)
 
 
 def test_license_cost():
@@ -31,3 +36,27 @@ def test_non_education_discount_at_fifty_seats():
 
 def test_education_discount_below_fifty_seats():
     assert get_seat_discount(49, True) == 0.07
+
+
+def test_license_total_with_onboarding():
+    assert round(calculate_license_total(40, 5), 2) == 260.00
+
+
+def test_license_total_with_discount():
+    assert round(calculate_license_total(35, 12, True), 2) == 450.60
+
+
+def test_onboarding_at_limit():
+    assert round(calculate_license_total(400, 1), 2) == 460.00
+
+
+def test_onboarding_above_limit():
+    assert round(calculate_license_total(401, 1), 2) == 401.00
+
+
+def test_contract_review_at_limit():
+    assert needs_contract_review(5000) is False
+
+
+def test_contract_review_above_limit():
+    assert needs_contract_review(5000.01) is True

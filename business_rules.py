@@ -8,6 +8,10 @@ STANDARD_DISCOUNT = 0.07
 EDUCATION_DISCOUNT = 0.16
 NO_DISCOUNT = 0.0
 
+ONBOARDING_FEE = 60.00
+ONBOARDING_LIMIT = 400.00
+CONTRACT_REVIEW_LIMIT = 5000.00
+
 
 def calculate_license_cost(seat_price: float, seats: int) -> float:
     """
@@ -26,3 +30,26 @@ def get_seat_discount(seats: int, education: bool = False) -> float:
         return STANDARD_DISCOUNT
     else:
         return NO_DISCOUNT
+
+
+def calculate_license_total(
+    seat_price: float, seats: int, education: bool = False
+) -> float:
+    """
+    Return the discounted license cost with any onboarding fee.
+    """
+    cost = calculate_license_cost(seat_price, seats)
+    discount = get_seat_discount(seats, education)
+    discounted_cost = cost * (1 - discount)
+
+    if discounted_cost <= ONBOARDING_LIMIT:
+        discounted_cost += ONBOARDING_FEE
+
+    return discounted_cost
+
+
+def needs_contract_review(total: float) -> bool:
+    """
+    Return whether the license total needs contract review.
+    """
+    return total > CONTRACT_REVIEW_LIMIT
