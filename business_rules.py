@@ -17,16 +17,12 @@ TRAINER_TOTAL_LIMIT = 3000.00
 
 
 def calculate_license_cost(seat_price: float, seats: int) -> float:
-    """
-    Return the license cost before discounts.
-    """
+    """Return the license cost before discounts."""
     return seat_price * seats
 
 
 def get_seat_discount(seats: int, education: bool = False) -> float:
-    """
-    Return the discount rate based on seats and customer type.
-    """
+    """Return the discount rate based on seats and customer type."""
     if seats >= MIN_EDUCATION_SEATS and education:
         return EDUCATION_DISCOUNT
     elif seats >= MIN_DISCOUNT_SEATS:
@@ -38,9 +34,7 @@ def get_seat_discount(seats: int, education: bool = False) -> float:
 def calculate_license_total(
     seat_price: float, seats: int, education: bool = False
 ) -> float:
-    """
-    Return the discounted license cost with any onboarding fee.
-    """
+    """Return the discounted license cost with any onboarding fee."""
     cost = calculate_license_cost(seat_price, seats)
     discount = get_seat_discount(seats, education)
     discounted_cost = cost * (1 - discount)
@@ -52,16 +46,12 @@ def calculate_license_total(
 
 
 def needs_contract_review(total: float) -> bool:
-    """
-    Return whether the license total needs contract review.
-    """
+    """Return whether the license total needs contract review."""
     return total > CONTRACT_REVIEW_LIMIT
 
 
 def gets_trainer(seats: int, total: float) -> bool:
-    """
-    Return True if an order qualifies for a dedicated trainer.
-    """
+    """Return True if an order qualifies for a dedicated trainer."""
     return seats >= TRAINER_SEAT_LIMIT or total > TRAINER_TOTAL_LIMIT
 
 
@@ -79,9 +69,7 @@ def total_licensed(orders: list) -> float:
 
 
 def largest_license(orders: list) -> str:
-    """
-    Return the company with the largest license total.
-    """
+    """Return the company with the largest license total."""
     largest_company = ""
     largest_total = 0.0
 
@@ -100,9 +88,7 @@ def largest_license(orders: list) -> str:
 def format_license_line(
     company: str, total: float, contract_review: bool, trainer: bool
 ) -> str:
-    """
-    Return a formatted report line for one company.
-    """
+    """Return a formatted report line for one company."""
     review_text = "yes" if contract_review else "no"
     trainer_text = "yes" if trainer else "no"
 
