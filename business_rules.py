@@ -95,3 +95,18 @@ def largest_license(orders: list) -> str:
             largest_company = order["company"]
 
     return largest_company
+
+
+def format_license_line(
+    company: str, total: float, contract_review: bool, trainer: bool
+) -> str:
+    """
+    Return a formatted report line for one company.
+    """
+    review_text = "yes" if contract_review else "no"
+    trainer_text = "yes" if trainer else "no"
+
+    return (
+        f"{company}: ${total:.2f} | "
+        f"contract review: {review_text} | trainer: {trainer_text}"
+    )

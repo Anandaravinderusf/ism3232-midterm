@@ -1,6 +1,7 @@
 from business_rules import (
     calculate_license_cost,
     calculate_license_total,
+    format_license_line,
     get_seat_discount,
     gets_trainer,
     largest_license,
@@ -115,3 +116,18 @@ def test_largest_license_tie():
 
 def test_largest_license_empty_list():
     assert largest_license([]) == ""
+
+
+def test_format_license_line_no_review_no_trainer():
+    result = format_license_line("Pine Books", 260, False, False)
+    assert result == "Pine Books: $260.00 | contract review: no | trainer: no"
+
+
+def test_format_license_line_with_review_and_trainer():
+    result = format_license_line("Summit College", 6300, True, True)
+    assert result == "Summit College: $6300.00 | contract review: yes | trainer: yes"
+
+
+def test_format_license_line_trainer_only():
+    result = format_license_line("Vega Dental", 697.50, False, True)
+    assert result == "Vega Dental: $697.50 | contract review: no | trainer: yes"
