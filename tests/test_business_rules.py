@@ -2,6 +2,7 @@ from business_rules import (
     calculate_license_cost,
     calculate_license_total,
     get_seat_discount,
+    gets_trainer,
     needs_contract_review,
 )
 
@@ -60,3 +61,23 @@ def test_contract_review_at_limit():
 
 def test_contract_review_above_limit():
     assert needs_contract_review(5000.01) is True
+
+
+def test_trainer_below_both_limits():
+    assert gets_trainer(24, 3000) is False
+
+
+def test_trainer_at_seat_limit():
+    assert gets_trainer(25, 3000) is True
+
+
+def test_trainer_below_seat_limit():
+    assert gets_trainer(24, 2999) is False
+
+
+def test_trainer_above_total_limit():
+    assert gets_trainer(24, 3000.01) is True
+
+
+def test_trainer_at_total_limit():
+    assert gets_trainer(24, 3000) is False

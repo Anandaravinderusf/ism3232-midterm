@@ -12,6 +12,9 @@ ONBOARDING_FEE = 60.00
 ONBOARDING_LIMIT = 400.00
 CONTRACT_REVIEW_LIMIT = 5000.00
 
+TRAINER_SEAT_LIMIT = 25
+TRAINER_TOTAL_LIMIT = 3000.00
+
 
 def calculate_license_cost(seat_price: float, seats: int) -> float:
     """
@@ -53,3 +56,10 @@ def needs_contract_review(total: float) -> bool:
     Return whether the license total needs contract review.
     """
     return total > CONTRACT_REVIEW_LIMIT
+
+
+def gets_trainer(seats: int, total: float) -> bool:
+    """
+    Return True if an order qualifies for a dedicated trainer.
+    """
+    return seats >= TRAINER_SEAT_LIMIT or total > TRAINER_TOTAL_LIMIT
