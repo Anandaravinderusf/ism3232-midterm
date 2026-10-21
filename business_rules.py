@@ -63,3 +63,35 @@ def gets_trainer(seats: int, total: float) -> bool:
     Return True if an order qualifies for a dedicated trainer.
     """
     return seats >= TRAINER_SEAT_LIMIT or total > TRAINER_TOTAL_LIMIT
+
+
+def total_licensed(orders: list) -> float:
+    """Return the combined license total for all orders."""
+    total = 0.0
+
+    for order in orders:
+        license_total = calculate_license_total(
+            order["seat_price"], order["seats"], order["education"]
+        )
+        total += license_total
+
+    return total
+
+
+def largest_license(orders: list) -> str:
+    """
+    Return the company with the largest license total.
+    """
+    largest_company = ""
+    largest_total = 0.0
+
+    for order in orders:
+        license_total = calculate_license_total(
+            order["seat_price"], order["seats"], order["education"]
+        )
+
+        if largest_company == "" or license_total > largest_total:
+            largest_total = license_total
+            largest_company = order["company"]
+
+    return largest_company

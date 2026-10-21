@@ -3,7 +3,9 @@ from business_rules import (
     calculate_license_total,
     get_seat_discount,
     gets_trainer,
+    largest_license,
     needs_contract_review,
+    total_licensed,
 )
 
 
@@ -81,3 +83,35 @@ def test_trainer_above_total_limit():
 
 def test_trainer_at_total_limit():
     assert gets_trainer(24, 3000) is False
+
+
+def test_total_licensed_multiple_orders():
+    orders = [
+        {"company": "Alpha", "seat_price": 40, "seats": 5, "education": False},
+        {"company": "Beta", "seat_price": 50, "seats": 2, "education": False},
+    ]
+    assert round(total_licensed(orders), 2) == 420.00
+
+
+def test_total_licensed_empty_list():
+    assert total_licensed([]) == 0.0
+
+
+def test_largest_license():
+    orders = [
+        {"company": "Alpha", "seat_price": 40, "seats": 5, "education": False},
+        {"company": "Beta", "seat_price": 100, "seats": 5, "education": False},
+    ]
+    assert largest_license(orders) == "Beta"
+
+
+def test_largest_license_tie():
+    orders = [
+        {"company": "Alpha", "seat_price": 40, "seats": 5, "education": False},
+        {"company": "Beta", "seat_price": 40, "seats": 5, "education": False},
+    ]
+    assert largest_license(orders) == "Alpha"
+
+
+def test_largest_license_empty_list():
+    assert largest_license([]) == ""
